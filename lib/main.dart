@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:toko_merch/controller/user_controller.dart';
+import 'package:toko_merch/views/home.dart';
+import 'package:toko_merch/views/login.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -7,16 +11,32 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Toko Merch',
       theme: ThemeData(
        
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: session(),
+    );
+  }
+
+  Widget session(){
+    return FutureBuilder<bool>(
+      future: user_Controller().checkSession(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        if (snapshot.hasData && snapshot.data == true) {
+          print("check session: ${snapshot.data}");
+          return HomeScreen();
+        }
+        return Login();
+      },
     );
   }
 }

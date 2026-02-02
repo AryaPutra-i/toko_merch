@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,7 +56,7 @@ class user_Controller {
     String message ="Login Failed";
 
     final response = await http.post(
-      Uri.parse("http://10.202.0.119/api_toko_hmif/login.php"),
+      Uri.parse("http://192.168.1.7/api_database/login.php"),
       body: {
         "email": email,
         "password": password
